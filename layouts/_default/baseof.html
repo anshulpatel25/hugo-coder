@@ -15,6 +15,12 @@
     {{ if .Permalink }}
       <base href="{{ .Permalink }}">
     {{ end }}
+
+    {{ if .Site.Params.googleAdSense }}
+    <script data-ad-client="{{ .Site.Params.googleAdSense }}" async
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    {{ end }}
+
     <title>{{ block "title" . }}{{ .Site.Title }}{{ end }}</title>
 
     {{ if .Permalink }}
@@ -105,11 +111,6 @@
 
       {{ partial "footer.html" . }}
     </main>
-
-    {{ if .Site.Params.googleAdSense }}
-    <script data-ad-client="{{ .Site.Params.googleAdSense }}" async
-      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-    {{ end }}
 
     {{ template "_internal/google_analytics.html" . }}
 
