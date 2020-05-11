@@ -16,11 +16,6 @@
       <base href="{{ .Permalink }}">
     {{ end }}
 
-    {{ if .Site.Params.googleAdSense }}
-    <script data-ad-client="{{ .Site.Params.googleAdSense }}" async
-      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-    {{ end }}
-
     <title>{{ block "title" . }}{{ .Site.Title }}{{ end }}</title>
 
     {{ if .Permalink }}
@@ -72,6 +67,13 @@
     {{ range .Site.Params.custom_js }}
       <script src="{{ . | relURL }}"></script>
     {{ end }}
+
+    <script type="text/javascript">
+      window._mNHandle = window._mNHandle || {};
+      window._mNHandle.queue = window._mNHandle.queue || [];
+      medianet_versionId = "3121199";
+    </script>
+    <script src="https://contextual.media.net/dmedianet.js?cid=8CUK8JJ25" async="async"></script>
 
     {{ range .Site.Params.custom_scss }}
       {{/* We don't change the targetPath to because it's transparent to users */}}
