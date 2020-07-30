@@ -4,10 +4,15 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="{{ .Site.Language.Lang }}">
 
     {{ with .Site.Params.author }}<meta name="author" content="{{ . }}">{{ end }}
-    {{ with .Site.Params.description }}<meta name="description" content="{{ . }}">{{ end }}
-    {{ with .Site.Params.keywords }}<meta name="keywords" content="{{ . }}">{{ end }}
+    <meta name="description" content="{{ .Description | default (.Summary | default .Site.Params.description ) }}">
+    <meta name="keywords" content="{{ (delimit .Keywords ",") | default .Site.Params.keywords }}">
+
+    {{ if .Site.Params.enableTwemoji }}
+      <script src="https://twemoji.maxcdn.com/v/latest/twemoji.min.js" crossorigin="anonymous"></script>
+    {{ end }}
 
     {{ template "_internal/twitter_cards.html" . }}
     {{ template "_internal/opengraph.html" . }}
@@ -103,7 +108,9 @@
   {{ else if eq .Site.Params.colorscheme "auto" }}
     {{ $csClass = "colorscheme-auto" }}
   {{ end }}
-  <body class="{{ $csClass }}{{ if .Site.Params.rtl }} rtl{{ end }}">
+  <body class="{{ $csClass }}{{ if .Site.Params.rtl }} rtl{{ end }}"
+        onload="{{ if .Site.Params.enableTwemoji }} twemoji.parse(document.body); {{ end }}"
+  >
     <main class="wrapper">
       {{ partial "header.html" . }}
 
@@ -113,6 +120,10 @@
 
       {{ partial "footer.html" . }}
     </main>
+
+    {{ range .Site.Params.custom_js }}
+      <script src="{{ . | relURL }}"></script>
+    {{ end }}
 
     {{ template "_internal/google_analytics.html" . }}
 
